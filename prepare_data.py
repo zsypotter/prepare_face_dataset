@@ -7,9 +7,9 @@ import numpy as np
 from glob import glob
 import json
 from multiprocessing import Pool
+import time
 
 files = glob('/data2/zhousiyu/dataset/CACD2000_base/*.jpg')
-files = files[0:10]
 
 def run(file):
     request_url = "https://aip.baidubce.com/rest/2.0/face/v3/detect"
@@ -24,7 +24,7 @@ def run(file):
     request_url = request_url + "?access_token=" + access_token
     request = urllib2.Request(url=request_url, data=params)
     request.add_header('Content-Type', 'application/json')
-    response = urllib2.urlopen(request)
+    response = urllib2.urlopen(request, time_out=3)
     content = response.read()
     
     '''save txt'''
@@ -72,12 +72,11 @@ def run(file):
 total = len(files)
 count = 1
 for file in files:
-    run(file)
-    '''try:
+    try:
         run(file)
     except BaseException:
-        print("Error")
+        print "Error"
     else:
-        print(file + ': Success', count, total)
-    count += 1'''
-    break
+        print file + ': Success', str(count) + '/' + str(total)
+    time.sleep(0.5)
+    count += 1
