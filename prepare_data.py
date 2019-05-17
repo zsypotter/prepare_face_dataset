@@ -24,7 +24,7 @@ def run(file):
     request_url = request_url + "?access_token=" + access_token
     request = urllib2.Request(url=request_url, data=params)
     request.add_header('Content-Type', 'application/json')
-    response = urllib2.urlopen(request, time_out=3)
+    response = urllib2.urlopen(request, timeout=1)
     content = response.read()
     
     '''save txt'''
